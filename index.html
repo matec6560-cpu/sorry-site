@@ -1,79 +1,305 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sorry</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apology • I really apologise</title>
+
+  <!-- Google fonts (elegant serif + clean sans) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #fff;
-      color: #333;
-      text-align: center;
+    :root{
+      --accent:#b71c4a;      /* deep rose */
+      --accent-2:#ffb4c6;    /* soft pink */
+      --gold: #caa14a;
+      --glass-bg: rgba(255,255,255,0.7);
+      --max-width: 880px;
+      --banner-height: 340px;
+
+      /* Banner image - replace URL below if you want a different Indian-style banner */
+      --banner-image: url("https://images.unsplash.com/photo-1604790639475-5df8dba2d6c5?auto=format&fit=crop&w=1600&q=80");
     }
 
-    /* Romantic banner */
-    .banner {
-      padding: 80px 20px;
-      background: linear-gradient(135deg, #ffb6c1, #ffe4e1);
+    /* Reset + base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(160deg,#fff8fb 0%, #fff 40%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
     }
 
-    .banner h1 {
-      margin: 0;
-      font-size: 48px;
+    /* Hero / banner */
+    .hero{
+      height:var(--banner-height);
+      background-image:
+        linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.08)),
+        var(--banner-image);
+      background-size:cover;
+      background-position:center 30%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+    /* subtle gold pattern overlay */
+    .hero::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(45deg, rgba(255,255,255,0.03), rgba(255,255,255,0.06));
+      pointer-events:none;
+      mix-blend-mode: overlay;
     }
 
-    /* Developer editable section */
-    .content {
-      padding: 40px 20px;
-      max-width: 600px;
-      margin: auto;
+    /* centered glass card */
+    .card {
+      max-width:var(--max-width);
+      margin:-60px auto 60px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.78));
+      border-radius:14px;
+      box-shadow: 0 10px 30px rgba(20,20,40,0.12);
+      padding:36px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(200,160,90,0.12);
+      position:relative;
     }
 
-    .content p {
-      font-size: 18px;
-      line-height: 1.6;
+    .title {
+      font-family: "Playfair Display", serif;
+      color: var(--accent);
+      font-size:34px;
+      margin:0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size:18px;
+      margin:0 0 18px;
+      color:#5b233b;
+      font-weight:400;
     }
 
-    /* Message button */
-    .message-btn {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 12px 24px;
-      background-color: #ff6f91;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 16px;
+    /* small decorative line with gold dot */
+    .decor {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:18px;
+    }
+    .decor .line{height:1px; background:linear-gradient(90deg, transparent, var(--gold)); flex:1; opacity:0.8}
+    .decor .dot{width:10px; height:10px; border-radius:50%; background:var(--gold); box-shadow:0 2px 8px rgba(202,161,74,0.25)}
+
+    /* paragraph */
+    .lead {
+      font-size:17px;
+      line-height:1.6;
+      color:#3a2430;
+      margin-bottom:22px;
     }
 
-    .message-btn:hover {
-      background-color: #ff4f78;
+    /* button row */
+    .actions { display:flex; gap:12px; flex-wrap:wrap; justify-content:center }
+    .btn {
+      appearance:none;
+      border:0;
+      padding:12px 18px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#fff;
+      box-shadow: 0 6px 18px rgba(183,28,74,0.18);
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:10px;
     }
+    .btn.ghost{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid rgba(183,28,74,0.12);
+      box-shadow:none;
+      font-weight:600;
+    }
+
+    /* footer note */
+    .note { text-align:center; color:#754455; font-size:13px; margin-top:16px }
+
+    /* falling tokens (hearts & flowers) */
+    .token {
+      position: fixed;
+      top:-50px;
+      pointer-events:none;
+      user-select:none;
+      transform: translateY(-20vh);
+      will-change: transform, opacity;
+      opacity:0.95;
+      font-size:20px;
+      animation-timing-function: linear;
+    }
+
+    /* responsive */
+    @media (max-width:640px){
+      .card{margin:-40px 18px 40px; padding:22px}
+      .title{font-size:26px}
+      .hero{height:240px}
+    }
+
+    /* modal (in-page message) */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,0.36); display:none; align-items:center; justify-content:center; z-index:1200;
+    }
+    .modal{
+      width:95%; max-width:520px; background:white; border-radius:12px; padding:18px; box-shadow: 0 18px 45px rgba(20,20,40,0.25);
+    }
+    .modal h3{margin:0 0 10px; font-family: Playfair Display, serif; color:var(--accent)}
+    .modal textarea{width:100%; min-height:120px; padding:10px; border-radius:8px; border:1px solid #e6d6db; resize:vertical; font-size:15px}
+    .modal .row{display:flex; gap:10px; justify-content:flex-end; margin-top:10px}
+    .small-muted{font-size:13px; color:#6b4a5a}
   </style>
 </head>
 <body>
 
-  <!-- Romantic Banner -->
-  <div class="banner">
-    <h1>Sorry ❤️</h1>
+  <!-- Hero / Banner area -->
+  <section class="hero" aria-hidden="true">
+    <!-- optional decorative text inside banner -->
+    <div style="position:relative; z-index:2; text-align:center; color:rgba(255,255,255,0.95)">
+      <h2 style="margin:0; font-family:Playfair Display, serif; font-size:22px; letter-spacing:0.04em; text-shadow:0 6px 18px rgba(0,0,0,0.28)">
+        A humble note
+      </h2>
+      <div style="height:6px"></div>
+      <div style="color:rgba(255,255,255,0.92); font-size:14px">Elegance • respect • apology</div>
+    </div>
+  </section>
+
+  <!-- Glass Card content -->
+  <main class="card" role="main" aria-labelledby="page-title">
+    <div style="text-align:center">
+      <div class="decor" aria-hidden="true">
+        <div class="line"></div>
+        <div class="dot"></div>
+        <div class="line"></div>
+      </div>
+
+      <h1 id="page-title" class="title">I really apologise 💖</h1>
+      <p class="subtitle">A sincere message delivered with respect and love</p>
+
+      <p class="lead" id="main-text">
+        I want to say sorry from the heart. I hope this note shows how much I care. Please accept this small token of regret and love.
+      </p>
+
+      <div class="actions">
+        <!-- Edit the href of this button later to point to a Google Form or Formspree if you want messages stored -->
+        <button class="btn" id="leaveMessageBtn" aria-haspopup="dialog">Leave a message</button>
+        <a class="btn ghost" href="#" id="editBtn">Edit page (owner)</a>
+      </div>
+
+      <p class="note">This page is lightweight and mobile friendly. Edit anytime via your GitHub repo.</p>
+    </div>
+  </main>
+
+  <!-- Modal for message (in-page) -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Leave a message</h3>
+      <p class="small-muted">Your message will be prepared in an email. The host will receive it in their inbox. (You can change this to Google Form later.)</p>
+      <textarea id="msgText" placeholder="Write your message here..."></textarea>
+      <div class="row">
+        <button class="btn ghost" id="cancelModal">Cancel</button>
+        <button class="btn" id="sendMail">Send</button>
+      </div>
+    </div>
   </div>
 
-  <!-- EDIT THIS TEXT (Developer only) -->
-  <div class="content">
-    <p>
-      <!-- You can change this message anytime -->
-      I know I made a mistake, and I truly regret it.  
-      This page exists only to say one thing — I’m sorry.
-    </p>
+  <!-- token container (hearts/flowers will be created by JS) -->
+  <div id="tokenContainer" aria-hidden="true"></div>
 
-    <!-- Visitor Message Button (change link anytime) -->
-    <a class="message-btn" href="https://forms.google.com" target="_blank">
-      Leave a Message
-    </a>
-  </div>
+<script>
+/* ======================
+   Config — edit these
+   ====================== */
+const HOST_EMAIL = "yourname@example.com"; // <-- change to your email (used for mailto)
+const FALL_INTERVAL = 350; // ms between tokens
+const TOKENS = ["💖","🌸","✨"]; // falling tokens
+/* ====================== */
+
+/* Modal logic */
+const leaveBtn = document.getElementById('leaveMessageBtn');
+const modal = document.getElementById('modalBackdrop');
+const cancelModal = document.getElementById('cancelModal');
+const sendMail = document.getElementById('sendMail');
+const msgText = document.getElementById('msgText');
+
+leaveBtn.addEventListener('click', ()=> {
+  modal.style.display = "flex";
+  msgText.value = "";
+  msgText.focus();
+  modal.setAttribute('aria-hidden','false');
+});
+cancelModal.addEventListener('click', ()=> {
+  modal.style.display = "none";
+  modal.setAttribute('aria-hidden','true');
+});
+
+/* Send using mailto: (opens user's mail client) — simple and keeps visitor on page until they close modal */
+sendMail.addEventListener('click', ()=> {
+  const body = encodeURIComponent(msgText.value || "(no message)");
+  const subject = encodeURIComponent("Message from your site");
+  const mailto = `mailto:${HOST_EMAIL}?subject=${subject}&body=${body}`;
+  // open mail client in new tab (some browsers open mail app)
+  window.location.href = mailto;
+  // close modal visually — still user controls mail client
+  modal.style.display = "none";
+  modal.setAttribute('aria-hidden','true');
+});
+
+/* Edit button for owner — shortcut to edit index.html on GitHub */
+document.getElementById('editBtn').addEventListener('click', (e)=>{
+  e.preventDefault();
+  // Replace USERNAME and REPO below if you want direct edit shortcut
+  const repoUrl = window.location.origin + '/matec6560-cpu/sorry-site'; // fallback
+  // If you're on GitHub pages domain, try to open repo edit (manual is fine)
+  window.open('https://github.com/YOUR-USERNAME/sorry-site/edit/main/index.html','_blank');
+});
+
+/* Falling tokens (hearts/flowers) generation */
+const tokenContainer = document.getElementById('tokenContainer');
+function spawnToken(){
+  const el = document.createElement('div');
+  el.className = 'token';
+  const token = TOKENS[Math.floor(Math.random()*TOKENS.length)];
+  el.textContent = token;
+  const size = 12 + Math.random()*28; // px
+  el.style.fontSize = size + 'px';
+  const left = Math.random()*100;
+  el.style.left = left + 'vw';
+  const duration = 4 + Math.random()*6; // seconds
+  el.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
+  el.style.transform = `translateY(0vh)`;
+  tokenContainer.appendChild(el);
+
+  // animate by setting transform after inserting
+  requestAnimationFrame(() => {
+    el.style.transform = `translateY(110vh) rotate(${(Math.random()*60)-30}deg)`;
+    el.style.opacity = '0.02';
+  });
+
+  // remove after animation
+  setTimeout(()=> el.remove(), (duration+0.5)*1000);
+}
+
+/* spawn continuously but not too many for performance */
+setInterval(spawnToken, FALL_INTERVAL);
+
+/* Small UX: click outside modal to close */
+modal.addEventListener('click', (ev)=> {
+  if(ev.target === modal) { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); }
+});
+</script>
 
 </body>
 </html>
+
+
